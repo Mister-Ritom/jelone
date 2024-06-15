@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "371268598281",
+    "project_id": "jelone-dev",
+    "storage_bucket": "jelone-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:371268598281:android:2f2a6faf9ae17a07b856d8",
+        "android_client_info": {
+          "package_name": "site.ritom.jelone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABqHK7gIvn11ANqpf1ut9nASzVq6at_4o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
