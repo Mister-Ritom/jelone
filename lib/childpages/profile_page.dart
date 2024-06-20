@@ -12,9 +12,9 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile Page'),
+        title: const Text('Profile Page'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('Welcome to the Home Page!'),
       ),
     );

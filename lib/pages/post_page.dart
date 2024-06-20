@@ -41,19 +41,24 @@ class _PostPageState extends State<PostPage> {
             ),
             onPressed: () {},
             child: RichText(
-              text: const TextSpan(
+              text: TextSpan(
                 children: [
-                  WidgetSpan(
+                  const WidgetSpan(
                     child: Icon(
                       FontAwesomeIcons.book,
                       size: 16,
                     ),
                   ),
-                  WidgetSpan(
+                  const WidgetSpan(
                       child: SizedBox(
                     width: 4,
                   )),
-                  TextSpan(text: 'Draft'),
+                  TextSpan(
+                    text: 'Draft',
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -61,17 +66,22 @@ class _PostPageState extends State<PostPage> {
           TextButton(
             onPressed: _createDialog,
             style: TextButton.styleFrom(
-              foregroundColor: Theme.of(context).colorScheme.surface,
+              foregroundColor: Theme.of(context).colorScheme.inverseSurface,
             ),
             child: RichText(
-              text: const TextSpan(
+              text: TextSpan(
                 children: [
-                  TextSpan(text: 'Post'),
-                  WidgetSpan(
+                  TextSpan(
+                    text: 'Post',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.inverseSurface,
+                    ),
+                  ),
+                  const WidgetSpan(
                       child: SizedBox(
                     width: 4,
                   )),
-                  WidgetSpan(
+                  const WidgetSpan(
                     child: Icon(
                       FontAwesomeIcons.paperPlane,
                       size: 16,
@@ -148,68 +158,73 @@ class _PostPageState extends State<PostPage> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            //Post title
-            TextField(
-              style: TextStyle(
-                fontSize: 16,
-                color: Theme.of(context).colorScheme.inverseSurface,
-              ),
-              maxLines: 4,
-              minLines: 3,
-              controller: _titleController,
-              decoration: InputDecoration(
-                fillColor: Theme.of(context).colorScheme.background,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              //Post title
+              TextField(
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.inverseSurface,
                 ),
-                hintText: 'Title',
+                maxLines: 4,
+                minLines: 3,
+                controller: _titleController,
+                decoration: InputDecoration(
+                  fillColor: Theme.of(context).colorScheme.surface,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  hintText: 'Title',
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            //Post content
-            TextField(
-              style: TextStyle(
-                fontSize: 16,
-                color: Theme.of(context).colorScheme.inverseSurface,
+              const SizedBox(
+                height: 12,
               ),
-              minLines: 10,
-              maxLines: 15,
-              controller: _contentController,
-              decoration: InputDecoration(
-                fillColor: Theme.of(context).colorScheme.background,
-                hintText: 'Content (Markdown supported)',
+              //Post content
+              TextField(
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.inverseSurface,
+                ),
+                minLines: 10,
+                maxLines: 15,
+                controller: _contentController,
+                decoration: InputDecoration(
+                  fillColor: Theme.of(context).colorScheme.surface,
+                  hintText: 'Content (Markdown supported)',
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                final List<MediaModel> mediaList = [];
-                for (var asset in _assets) {
-                  final media = MediaModel(
-                    mediaUrl: (await asset.file)!.path,
-                    mediaType: asset.type == AssetType.image
-                        ? MediaType.image
-                        : asset.type == AssetType.video
-                            ? MediaType.video
-                            : MediaType.document,
-                  );
-                  mediaList.add(media);
-                }
-                if (mounted && context.mounted) {
-                  MediaDialogs.listMedia(mediaList, false, context);
-                }
-              },
-              child: const Text('Show media list'),
-            ),
-          ],
+              const SizedBox(
+                height: 24,
+              ),
+              Visibility(
+                visible: _assets.isNotEmpty,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    final List<MediaModel> mediaList = [];
+                    for (var asset in _assets) {
+                      final media = MediaModel(
+                        mediaUrl: (await asset.file)!.path,
+                        mediaType: asset.type == AssetType.image
+                            ? MediaType.image
+                            : asset.type == AssetType.video
+                                ? MediaType.video
+                                : MediaType.document,
+                      );
+                      mediaList.add(media);
+                    }
+                    if (mounted && context.mounted) {
+                      MediaDialogs.listMedia(mediaList, false, context);
+                    }
+                  },
+                  child: const Text('Show media list'),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -302,7 +317,7 @@ class _PostPageState extends State<PostPage> {
     final List<AssetEntity>? result = await AssetPicker.pickAssets(
       context,
       pickerConfig: AssetPickerConfig(
-        maxAssets: 6,
+        maxAssets: 9,
         requestType: RequestType.image,
         pickerTheme: Theme.of(context),
       ),
@@ -316,7 +331,7 @@ class _PostPageState extends State<PostPage> {
     final List<AssetEntity>? result = await AssetPicker.pickAssets(
       context,
       pickerConfig: AssetPickerConfig(
-        maxAssets: 6,
+        maxAssets: 9,
         requestType: RequestType.video,
         pickerTheme: Theme.of(context),
       ),
